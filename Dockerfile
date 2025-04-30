@@ -1,0 +1,15 @@
+FROM openjdk:17
+
+ARG DB_HOST
+ARG DB_USER
+ARG DB_PASSWORD
+
+ENV DB_HOST=${DB_HOST} \
+    DB_USER=${DB_USER} \
+    DB_PASSWORD=${DB_PASSWORD} \
+
+ARG JAR_FILE=build/libs/*-SNAPSHOT.jar
+
+COPY ${JAR_FILE} app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
