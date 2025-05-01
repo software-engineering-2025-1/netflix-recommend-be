@@ -1,11 +1,11 @@
 package com.netflix.recommend.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.netflix.recommend.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    Optional<User> findByKakaoId(Long kakaoId);
 }
