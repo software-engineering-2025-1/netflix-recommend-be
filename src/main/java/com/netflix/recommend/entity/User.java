@@ -1,26 +1,33 @@
 package com.netflix.recommend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.netflix.recommend.enums.Country;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "User")
+@Getter
+@NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    private String preferredGenres; // CSV e.g., "Action,Drama"
-    private String preferredCountries; // CSV e.g., "US,KR"
+    @Column(unique = true)
+    private Long kakaoId;
 
-    private String ageRatingPreference;
+    @Column(nullable = true)
+    private Integer age;
+
+    @Column(nullable = true)
+    private Country country;
+
+    @Builder
+    User(Long kakaoId) {
+        this.name = "익명의 사용자";
+        this.kakaoId = kakaoId;
+    }
 }
