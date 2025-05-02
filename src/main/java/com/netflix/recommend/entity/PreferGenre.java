@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "prefer-genre")
+@Entity
 @Table(uniqueConstraints={ @UniqueConstraint(name= "genre-user-uk", columnNames={"genre", "user_id"})})
 @NoArgsConstructor
 public class PreferGenre {

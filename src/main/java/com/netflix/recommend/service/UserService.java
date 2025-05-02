@@ -4,4 +4,5 @@ import com.netflix.recommend.dto.UserDetailReqDto;
 
 public interface UserService {
     void postUserDetail(Long userId, UserDetailReqDto userDetailReqDto);
+    void updateUserDetail(Long userId, UserDetailReqDto userDetailReqDto);
 }

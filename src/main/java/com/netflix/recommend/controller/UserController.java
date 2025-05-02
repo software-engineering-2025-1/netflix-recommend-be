@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "사용자")
 @RestController
@@ -33,6 +30,19 @@ public class UserController {
     )
     public ResponseEntity<String> postUserDetail(@Parameter(hidden = true) Authentication authentication, @RequestBody UserDetailReqDto userDetailReqDto) {
         userService.postUserDetail(Long.valueOf(authentication.getName()), userDetailReqDto);
+        return ResponseEntity.ok("성공");
+    }
+
+    @PutMapping("/me")
+    @Operation(
+            summary = "사용자 정보 수정 API",
+            description = "이름, 나이, 국가, 선호 장르를 수정할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<String> putUserDetail(@Parameter(hidden = true) Authentication authentication, @RequestBody UserDetailReqDto userDetailReqDto) {
+        userService.updateUserDetail(Long.valueOf(authentication.getName()), userDetailReqDto);
         return ResponseEntity.ok("성공");
     }
 }

@@ -41,4 +41,25 @@ public class UserServiceImpl implements UserService {
             throw new CustomException(ErrorCode.ALREADY_REGISTERED_DETAIL);
         }
     }
+
+    @Override
+    @Transactional
+    public void updateUserDetail(Long userId, UserDetailReqDto userDetailReqDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+
+        user.updateDetail(
+                userDetailReqDto.getName(),
+                userDetailReqDto.getAge(),
+                userDetailReqDto.getCountry()
+        );
+
+        preferGenreRepository.deleteByUser(user);
+        preferGenreRepository.flush();
+
+        preferGenreRepository.saveAll(
+                userDetailReqDto.getGenres().stream().map(
+                        (genre -> PreferGenre.builder().genre(genre).user(user).build())
+                ).toList()
+        );
+    }
 }
