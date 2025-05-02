@@ -30,4 +30,10 @@ public class User {
         this.name = "익명의 사용자";
         this.kakaoId = kakaoId;
     }
+
+    public void updateDetail(String name, Integer age, Country country) {
+        this.name = name;
+        this.age = age;
+        this.country = country;
+    }
 }
