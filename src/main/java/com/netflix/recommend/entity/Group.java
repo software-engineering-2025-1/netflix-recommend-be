@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,9 @@ public class Group {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     private Set<Participant> participants;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
+    private List<Review> reviews;
 
     @Builder
     Group(String name) {

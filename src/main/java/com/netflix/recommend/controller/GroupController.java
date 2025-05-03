@@ -2,6 +2,7 @@ package com.netflix.recommend.controller;
 
 import com.netflix.recommend.dto.res.GroupDetailResDto;
 import com.netflix.recommend.dto.res.GroupElementResDto;
+import com.netflix.recommend.dto.res.ReviewPageResDto;
 import com.netflix.recommend.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -71,5 +73,20 @@ public class GroupController {
     )
     public ResponseEntity<List<GroupElementResDto>> searchGroupList(@RequestParam String keyword) {
         return ResponseEntity.ok(groupService.searchGroupList(keyword));
+    }
+
+    @GetMapping("/{group-id}/reviews")
+    @Operation(
+            summary = "그룹 리뷰 조회 API",
+            description = "그룹 리뷰를 페이지네이션을 통해 조회한다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<ReviewPageResDto> getGroupReview(@Parameter(hidden = true) Authentication authentication,
+                                                           @PathVariable("group-id") Long groupId,
+                                                           @RequestParam Integer page, @RequestParam Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.ok(groupService.getReviewWithPaging(Long.valueOf(authentication.getName()), groupId, pageRequest));
     }
 }
