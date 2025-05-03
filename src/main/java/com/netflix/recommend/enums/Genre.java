@@ -1,5 +1,10 @@
 package com.netflix.recommend.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Genre {
     ROMANCE("romance"),
     CRIMINAL("criminal"),
@@ -8,5 +13,5 @@ public enum Genre {
 
     // TODO: 추후에 수정 및 추가
 
-    Genre(String name) {}
+    private final String name;
 }
