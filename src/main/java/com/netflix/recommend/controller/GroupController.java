@@ -1,5 +1,6 @@
 package com.netflix.recommend.controller;
 
+import com.netflix.recommend.dto.req.ReviewDetailReqDto;
 import com.netflix.recommend.dto.res.GroupDetailResDto;
 import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.dto.res.ReviewPageResDto;
@@ -88,5 +89,20 @@ public class GroupController {
                                                            @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(groupService.getReviewWithPaging(Long.valueOf(authentication.getName()), groupId, pageRequest));
+    }
+
+    @PostMapping("/{group-id}/reviews")
+    @Operation(
+            summary = "그룹 리뷰 등록 API",
+            description = "특정 그룹의 리뷰를 등록한다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<String> postGroupReview(@Parameter(hidden = true) Authentication authentication,
+                                                  @PathVariable("group-id") Long groupId,
+                                                  @RequestBody ReviewDetailReqDto reviewDetailReqDto) {
+        groupService.postReview(Long.valueOf(authentication.getName()), groupId, reviewDetailReqDto);
+        return ResponseEntity.ok("성공");
     }
 }

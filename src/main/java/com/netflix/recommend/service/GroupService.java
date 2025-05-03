@@ -1,5 +1,6 @@
 package com.netflix.recommend.service;
 
+import com.netflix.recommend.dto.req.ReviewDetailReqDto;
 import com.netflix.recommend.dto.res.GroupDetailResDto;
 import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.dto.res.ReviewPageResDto;
@@ -18,4 +19,6 @@ public interface GroupService {
     List<GroupElementResDto> searchGroupList(String keyword);
 
     ReviewPageResDto getReviewWithPaging(Long userId, Long groupId, Pageable pageable);
+
+    void postReview(Long userId, Long groupId, ReviewDetailReqDto reviewDetailReqDto);
 }

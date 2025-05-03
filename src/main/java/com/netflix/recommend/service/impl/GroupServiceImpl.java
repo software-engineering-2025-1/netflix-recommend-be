@@ -1,5 +1,6 @@
 package com.netflix.recommend.service.impl;
 
+import com.netflix.recommend.dto.req.ReviewDetailReqDto;
 import com.netflix.recommend.dto.res.*;
 import com.netflix.recommend.entity.Group;
 import com.netflix.recommend.entity.Participant;
@@ -105,5 +106,20 @@ public class GroupServiceImpl implements GroupService {
                                 .build()
                 ).toList())
                 .build();
+    }
+
+    @Override
+    public void postReview(Long userId, Long groupId, ReviewDetailReqDto reviewDetailReqDto) {
+        User user = userRepository.getReferenceById(userId);
+        Group group = groupRepository.getReferenceById(groupId);
+
+        if (!participantRepository.existsByUserAndGroup(user, group)) throw new CustomException(ErrorCode.NEED_GROUP_PERMISSION);
+
+        reviewRepository.save(Review.builder()
+                .user(user)
+                .group(group)
+                .comment(reviewDetailReqDto.getComment())
+                .build()
+        );
     }
 }

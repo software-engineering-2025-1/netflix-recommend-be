@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("select r from Review r left join fetch r.user where r.group.id = :groupId")
+    @Query("select r from Review r left join fetch r.user where r.group.id = :groupId order by r.createdAt desc")
     Page<Review> findAllReviewDetailByGroupId(Long groupId, Pageable pageable);
 }
