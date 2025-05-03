@@ -1,4 +1,4 @@
-package com.netflix.recommend.dto;
+package com.netflix.recommend.dto.req;
 
 import com.netflix.recommend.enums.Country;
 import com.netflix.recommend.enums.Genre;
