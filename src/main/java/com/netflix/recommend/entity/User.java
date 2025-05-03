@@ -25,6 +25,7 @@ public class User {
     private Integer age;
 
     @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
     private Country country;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

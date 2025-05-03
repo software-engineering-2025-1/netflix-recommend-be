@@ -2,6 +2,7 @@ package com.netflix.recommend.controller;
 
 import com.netflix.recommend.dto.req.UserDetailReqDto;
 import com.netflix.recommend.dto.res.UserDetailResDto;
+import com.netflix.recommend.service.FollowService;
 import com.netflix.recommend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final FollowService followService;
 
     @PostMapping("/me")
     @Operation(
@@ -69,5 +71,18 @@ public class UserController {
     )
     public ResponseEntity<UserDetailResDto> getUserDetail(@PathVariable("user-id") Long userId) {
         return ResponseEntity.ok(userService.getUserDetail(userId));
+    }
+
+    @PostMapping("/{user-id}/follow")
+    @Operation(
+            summary = "팔로우 등록 API",
+            description = "특정 사용자를 팔로우할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<String> postFollow(@Parameter(hidden = true) Authentication authentication, @PathVariable("user-id") Long userId) {
+        followService.postFollow(Long.valueOf(authentication.getName()), userId);
+        return ResponseEntity.ok("성공");
     }
 }
