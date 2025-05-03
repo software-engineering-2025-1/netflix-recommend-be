@@ -2,9 +2,11 @@ package com.netflix.recommend.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @Table(uniqueConstraints={ @UniqueConstraint(name= "sender-receiver-uk", columnNames={"sender_id", "receiver_id"})})
 @NoArgsConstructor
 public class Follow {
