@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         preferGenreRepository.saveAll(
                 userDetailReqDto.getGenres().stream().map(
-                        (genre -> PreferGenre.builder().genre(genre).user(user).build())
+                        genre -> PreferGenre.builder().genre(genre).user(user).build()
                 ).toList()
         );
     }
@@ -76,14 +76,14 @@ public class UserServiceImpl implements UserService {
                 .age(user.getAge())
                 .country(user.getCountry())
                 .genres(user.getGenres().stream().map((PreferGenre::getGenre)).toList())
-                .histories(user.getHistories().stream().map((history -> {
+                .histories(user.getHistories().stream().map(history -> {
                     Video video = history.getVideo();
                     return VideoElementResDto.builder()
                             .id(video.getId())
                             .title(video.getTitle())
                             .director(video.getDirector())
                             .build();
-                })).toList())
+                }).toList())
                 .build();
     }
 }

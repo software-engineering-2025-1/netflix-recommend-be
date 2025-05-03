@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PreferGenreRepository extends JpaRepository<PreferGenre, Long> {
 
-//    @Query("DELETE FROM PreferGenre pg WHERE pg.user = :user")
     void deleteByUser(User user);
 }
