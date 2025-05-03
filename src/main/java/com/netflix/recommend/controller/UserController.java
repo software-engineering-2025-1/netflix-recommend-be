@@ -58,4 +58,16 @@ public class UserController {
     public ResponseEntity<UserDetailResDto> getMyDetail(@Parameter(hidden = true) Authentication authentication) {
         return ResponseEntity.ok(userService.getUserDetail(Long.valueOf(authentication.getName())));
     }
+
+    @GetMapping("/{user-id}")
+    @Operation(
+            summary = "사용자 정보 조회 API",
+            description = "id, 이름, 나이, 국가, 선호 장르, 시청 기록을 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<UserDetailResDto> getUserDetail(@PathVariable("user-id") Long userId) {
+        return ResponseEntity.ok(userService.getUserDetail(userId));
+    }
 }
