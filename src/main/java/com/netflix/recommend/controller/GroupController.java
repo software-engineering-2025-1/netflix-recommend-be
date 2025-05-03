@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "그룹")
 @RestController
@@ -32,6 +29,19 @@ public class GroupController {
     )
     public ResponseEntity<String> postGroup(@Parameter(hidden = true) Authentication authentication, @RequestParam String name) {
         groupService.postGroup(Long.valueOf(authentication.getName()), name);
+        return ResponseEntity.ok("성공");
+    }
+
+    @PostMapping("/{group-id}")
+    @Operation(
+            summary = "그룹 참여 API",
+            description = "이미 참여한 그룹이 아닐 시, 그룹에 참여한다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<String> joinGroup(@Parameter(hidden = true) Authentication authentication, @PathVariable("group-id") Long groupId) {
+        groupService.joinGroup(Long.valueOf(authentication.getName()), groupId);
         return ResponseEntity.ok("성공");
     }
 }

@@ -11,6 +11,9 @@ import com.netflix.recommend.repository.UserRepository;
 import com.netflix.recommend.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class GroupServiceImpl implements GroupService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void postGroup(Long userId, String name) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
 
@@ -28,6 +32,20 @@ public class GroupServiceImpl implements GroupService {
                 .name(name)
                 .build()
         );
+        participantRepository.save(Participant.builder()
+                .user(user)
+                .group(group)
+                .build()
+        );
+    }
+
+    @Override
+    public void joinGroup(Long userId, Long groupId) {
+        User user = userRepository.getReferenceById(userId);
+        Group group = groupRepository.getReferenceById(groupId);
+
+        if (participantRepository.existsByUserAndGroup(user, group)) throw new CustomException(ErrorCode.ALREADY_JOINED_GROUP);
+
         participantRepository.save(Participant.builder()
                 .user(user)
                 .group(group)
