@@ -2,9 +2,11 @@ package com.netflix.recommend.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Participant {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

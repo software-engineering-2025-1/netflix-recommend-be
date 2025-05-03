@@ -1,5 +1,7 @@
 package com.netflix.recommend.service.impl;
 
+import com.netflix.recommend.dto.res.GroupDetailResDto;
+import com.netflix.recommend.dto.res.UserElementResDto;
 import com.netflix.recommend.entity.Group;
 import com.netflix.recommend.entity.Participant;
 import com.netflix.recommend.entity.User;
@@ -13,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
@@ -26,7 +26,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     @Transactional
     public void postGroup(Long userId, String name) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+        User user = userRepository.getReferenceById(userId);
 
         Group group = groupRepository.save(Group.builder()
                 .name(name)
@@ -51,5 +51,22 @@ public class GroupServiceImpl implements GroupService {
                 .group(group)
                 .build()
         );
+    }
+
+    @Override
+    public GroupDetailResDto getGroupDetail(Long groupId) {
+        Group group = groupRepository.findGroupDetailByIdFetch(groupId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_GROUP));
+
+        return GroupDetailResDto.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .members(group.getParticipants().stream().map(participant -> {
+                    User user = participant.getUser();
+                    return UserElementResDto.builder()
+                            .id(user.getId())
+                            .name(user.getName())
+                            .build();
+                }).toList())
+                .build();
     }
 }
