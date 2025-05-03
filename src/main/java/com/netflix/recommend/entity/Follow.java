@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(uniqueConstraints={ @UniqueConstraint(name= "sender-receiver-uk", columnNames={"sender_id", "receiver_id"})})
+@Table(uniqueConstraints={ @UniqueConstraint(name= "sender-receiver-uk", columnNames={"sender_id", "receiver_id"}) })
 @NoArgsConstructor
 public class Follow {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

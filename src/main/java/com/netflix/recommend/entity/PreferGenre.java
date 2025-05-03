@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(uniqueConstraints={ @UniqueConstraint(name= "genre-user-uk", columnNames={"genre", "user_id"})})
+@Table(uniqueConstraints={ @UniqueConstraint(name= "genre-user-uk", columnNames={"genre", "user_id"}) })
 @Getter
 @NoArgsConstructor
 public class PreferGenre {
