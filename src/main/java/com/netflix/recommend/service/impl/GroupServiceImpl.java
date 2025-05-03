@@ -1,6 +1,7 @@
 package com.netflix.recommend.service.impl;
 
 import com.netflix.recommend.dto.res.GroupDetailResDto;
+import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.dto.res.UserElementResDto;
 import com.netflix.recommend.entity.Group;
 import com.netflix.recommend.entity.Participant;
@@ -14,6 +15,8 @@ import com.netflix.recommend.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -69,4 +72,16 @@ public class GroupServiceImpl implements GroupService {
                 }).toList())
                 .build();
     }
+
+    @Override
+    public List<GroupElementResDto> searchGroupList(String keyword) {
+        return groupRepository.findAllByNameContaining(keyword).stream().map(group ->
+                GroupElementResDto.builder()
+                        .id(group.getId())
+                        .name(group.getName())
+                        .build()
+        ).toList();
+    }
+
+
 }

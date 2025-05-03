@@ -1,6 +1,7 @@
 package com.netflix.recommend.controller;
 
 import com.netflix.recommend.dto.res.GroupDetailResDto;
+import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "그룹")
 @RestController
@@ -56,5 +59,17 @@ public class GroupController {
     )
     public ResponseEntity<GroupDetailResDto> getGroupDetail(@PathVariable("group-id") Long groupId) {
         return ResponseEntity.ok(groupService.getGroupDetail(groupId));
+    }
+
+    @GetMapping
+    @Operation(
+            summary = "그룹 검색 API (인증 X)",
+            description = "그룹을 키워드로 검색한다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<List<GroupElementResDto>> searchGroupList(@RequestParam String keyword) {
+        return ResponseEntity.ok(groupService.searchGroupList(keyword));
     }
 }
