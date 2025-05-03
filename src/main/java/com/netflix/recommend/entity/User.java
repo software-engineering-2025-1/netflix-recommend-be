@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,9 +27,21 @@ public class User {
     @Column(nullable = true)
     private Country country;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<PreferGenre> genres;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<History> histories;
+
     @Builder
     User(Long kakaoId) {
         this.name = "익명의 사용자";
         this.kakaoId = kakaoId;
+    }
+
+    public void updateDetail(String name, Integer age, Country country) {
+        this.name = name;
+        this.age = age;
+        this.country = country;
     }
 }
