@@ -1,8 +1,11 @@
 package com.netflix.recommend.service.impl;
 
-import com.netflix.recommend.dto.UserDetailReqDto;
+import com.netflix.recommend.dto.req.UserDetailReqDto;
+import com.netflix.recommend.dto.res.UserDetailResDto;
+import com.netflix.recommend.dto.res.VideoElementResDto;
 import com.netflix.recommend.entity.PreferGenre;
 import com.netflix.recommend.entity.User;
+import com.netflix.recommend.entity.Video;
 import com.netflix.recommend.exception.CustomException;
 import com.netflix.recommend.exception.ErrorCode;
 import com.netflix.recommend.repository.PreferGenreRepository;
@@ -61,5 +64,26 @@ public class UserServiceImpl implements UserService {
                         (genre -> PreferGenre.builder().genre(genre).user(user).build())
                 ).toList()
         );
+    }
+
+    @Override
+    public UserDetailResDto getUserDetail(Long userId) {
+        User user = userRepository.findUserDetailByIdFetch(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+
+        return UserDetailResDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .age(user.getAge())
+                .country(user.getCountry())
+                .genres(user.getGenres().stream().map((PreferGenre::getGenre)).toList())
+                .histories(user.getHistories().stream().map((history -> {
+                    Video video = history.getVideo();
+                    return VideoElementResDto.builder()
+                            .id(video.getId())
+                            .title(video.getTitle())
+                            .director(video.getDirector())
+                            .build();
+                })).toList())
+                .build();
     }
 }
