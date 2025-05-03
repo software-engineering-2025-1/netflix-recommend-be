@@ -6,7 +6,8 @@ import com.netflix.recommend.enums.Type;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,7 +27,7 @@ public class Video {
     @Enumerated(EnumType.STRING)
     private Country country;
 
-    private Date dateAdded;
+    private LocalDate dateAdded;
 
     private Integer releaseYear;
 
@@ -36,4 +37,7 @@ public class Video {
     private Integer duration;
 
     private String description;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
+    private List<VideoGenre> genres;
 }

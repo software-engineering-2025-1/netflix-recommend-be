@@ -14,6 +14,7 @@ public enum ErrorCode {
     CANNOT_FOLLOW_MYSELF(HttpStatus.BAD_REQUEST, "자신은 팔로우할 수 없습니다."),
     ALREADY_FOLLOWED_USER(HttpStatus.BAD_REQUEST, "이미 팔로우 하고 있는 사용자입니다."),
     ALREADY_REGISTERED_HISTORY(HttpStatus.BAD_REQUEST, "이미 등록된 시청 기록입니다."),
+    CANNOT_FIND_VIDEO(HttpStatus.BAD_REQUEST, "영상을 찾을 수 없습니다."),
 
     NEED_GROUP_PERMISSION(HttpStatus.FORBIDDEN, "그룹에 대한 권한이 없습니다.");
 

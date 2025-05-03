@@ -1,5 +1,6 @@
 package com.netflix.recommend.service.impl;
 
+import com.netflix.recommend.dto.res.VideoDetailResDto;
 import com.netflix.recommend.entity.History;
 import com.netflix.recommend.entity.User;
 import com.netflix.recommend.entity.Video;
@@ -11,6 +12,8 @@ import com.netflix.recommend.repository.VideoRepository;
 import com.netflix.recommend.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,14 @@ public class VideoServiceImpl implements VideoService {
                 .user(user)
                 .video(video)
                 .build()
+        );
+    }
+
+    @Override
+    public VideoDetailResDto getVideoDetail(Long videoId) {
+        return VideoDetailResDto.of(
+                videoRepository.findVideoDetailByIdFetch(videoId)
+                        .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_VIDEO))
         );
     }
 }
