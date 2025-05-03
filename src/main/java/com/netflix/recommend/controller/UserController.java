@@ -100,4 +100,16 @@ public class UserController {
     public ResponseEntity<List<UserElementResDto>> getFollowers(@PathVariable("user-id") Long userId) {
         return ResponseEntity.ok(followService.getFollowerList(userId));
     }
+
+    @GetMapping("/{user-id}/followings")
+    @Operation(
+            summary = "팔로잉 조회 API",
+            description = "특정 사용자의 팔로잉 리스트를 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<List<UserElementResDto>> getFollowings(@PathVariable("user-id") Long userId) {
+        return ResponseEntity.ok(followService.getFollowingList(userId));
+    }
 }

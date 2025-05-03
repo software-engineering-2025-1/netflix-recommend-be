@@ -46,4 +46,15 @@ public class FollowServiceImpl implements FollowService {
                     .build();
         }).toList();
     }
+
+    @Override
+    public List<UserElementResDto> getFollowingList(Long userId) {
+        return followRepository.findFollowingsByIdFetch(userId).stream().map(follow -> {
+            User following = follow.getReceiver();
+            return UserElementResDto.builder()
+                    .id(following.getId())
+                    .name(following.getName())
+                    .build();
+        }).toList();
+    }
 }
