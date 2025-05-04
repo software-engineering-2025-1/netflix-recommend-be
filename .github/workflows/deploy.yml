@@ -40,10 +40,10 @@ jobs:
           --build-arg DB_HOST="${{ env.DB_HOST }}" \
           --build-arg DB_USER="${{ env.DB_USER }}" \
           --build-arg DB_PASSWORD="${{ env.DB_PASSWORD }}" \
-          --build-arg DB_PASSWORD="${{ env.KAKAO_CLIENT_ID }}" \
-          --build-arg DB_PASSWORD="${{ env.KAKAO_CLIENT_SECRET }}" \
-          --build-arg DB_PASSWORD="${{ env.JWT_SECRET_KEY }}" \
-          --build-arg DB_PASSWORD="${{ env.CLIENT_REDIRECT_URI }}" \
+          --build-arg KAKAO_CLIENT_ID="${{ env.KAKAO_CLIENT_ID }}" \
+          --build-arg KAKAO_CLIENT_SECRET="${{ env.KAKAO_CLIENT_SECRET }}" \
+          --build-arg JWT_SECRET_KEY="${{ env.JWT_SECRET_KEY }}" \
+          --build-arg CLIENT_REDIRECT_URI="${{ env.CLIENT_REDIRECT_URI }}" \
           -t netflix-recommend-app . 
           docker tag netflix-recommend-app ${{ secrets.DOCKER_HUB_USERNAME }}/netflix-recommend-app:${{ github.sha }}
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/netflix-recommend-app:${{ github.sha }}
