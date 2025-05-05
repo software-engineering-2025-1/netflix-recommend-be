@@ -23,7 +23,7 @@ public class VideoDetailResDto {
     private String description;
     private String genres;
 
-    public static VideoDetailResDto of (Video video) {
+    public static VideoDetailResDto from(Video video) {
         return VideoDetailResDto.builder()
                 .id(video.getId())
                 .type(video.getType().getName())

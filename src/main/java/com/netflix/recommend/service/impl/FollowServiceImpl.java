@@ -22,12 +22,14 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public void postFollow(Long senderId, Long receiverId) {
-        if (senderId.equals(receiverId)) throw new CustomException(ErrorCode.CANNOT_FOLLOW_MYSELF);
+        if (senderId.equals(receiverId))
+            throw new CustomException(ErrorCode.CANNOT_FOLLOW_MYSELF);
 
         User sender = userRepository.getReferenceById(senderId);
         User receiver = userRepository.getReferenceById(receiverId);
 
-        if (followRepository.existsBySenderAndReceiver(sender, receiver)) throw new CustomException(ErrorCode.ALREADY_FOLLOWED_USER);
+        if (followRepository.existsBySenderAndReceiver(sender, receiver))
+            throw new CustomException(ErrorCode.ALREADY_FOLLOWED_USER);
 
         followRepository.save(Follow.builder()
                         .sender(sender)
@@ -38,23 +40,13 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public List<UserElementResDto> getFollowerList(Long userId) {
-        return followRepository.findFollowersByIdFetch(userId).stream().map(follow -> {
-            User follower = follow.getSender();
-            return UserElementResDto.builder()
-                    .id(follower.getId())
-                    .name(follower.getName())
-                    .build();
-        }).toList();
+        return followRepository.findFollowersByIdFetch(userId).stream().map(follow ->
+                UserElementResDto.from(follow.getSender())).toList();
     }
 
     @Override
     public List<UserElementResDto> getFollowingList(Long userId) {
-        return followRepository.findFollowingsByIdFetch(userId).stream().map(follow -> {
-            User following = follow.getReceiver();
-            return UserElementResDto.builder()
-                    .id(following.getId())
-                    .name(following.getName())
-                    .build();
-        }).toList();
+        return followRepository.findFollowingsByIdFetch(userId).stream().map(follow ->
+                UserElementResDto.from(follow.getSender())).toList();
     }
 }

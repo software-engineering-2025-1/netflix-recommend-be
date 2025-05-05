@@ -14,7 +14,6 @@ import com.netflix.recommend.repository.ReviewRepository;
 import com.netflix.recommend.repository.UserRepository;
 import com.netflix.recommend.service.GroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +50,8 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepository.getReferenceById(userId);
         Group group = groupRepository.getReferenceById(groupId);
 
-        if (participantRepository.existsByUserAndGroup(user, group)) throw new CustomException(ErrorCode.ALREADY_JOINED_GROUP);
+        if (participantRepository.existsByUserAndGroup(user, group))
+            throw new CustomException(ErrorCode.ALREADY_JOINED_GROUP);
 
         participantRepository.save(Participant.builder()
                 .user(user)
@@ -62,29 +62,16 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public GroupDetailResDto getGroupDetail(Long groupId) {
-        Group group = groupRepository.findGroupDetailByIdFetch(groupId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_GROUP));
+        Group group = groupRepository.findGroupDetailByIdFetch(groupId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_GROUP));
 
-        return GroupDetailResDto.builder()
-                .id(group.getId())
-                .name(group.getName())
-                .members(group.getParticipants().stream().map(participant -> {
-                    User user = participant.getUser();
-                    return UserElementResDto.builder()
-                            .id(user.getId())
-                            .name(user.getName())
-                            .build();
-                }).toList())
-                .build();
+        return GroupDetailResDto.from(group);
     }
 
     @Override
     public List<GroupElementResDto> searchGroupList(String keyword) {
-        return groupRepository.findAllByNameContaining(keyword).stream().map(group ->
-                GroupElementResDto.builder()
-                        .id(group.getId())
-                        .name(group.getName())
-                        .build()
-        ).toList();
+        return groupRepository.findAllByNameContaining(keyword)
+                .stream().map(GroupElementResDto::from).toList();
     }
 
     @Override
@@ -92,20 +79,10 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepository.getReferenceById(userId);
         Group group = groupRepository.getReferenceById(groupId);
 
-        if (!participantRepository.existsByUserAndGroup(user, group)) throw new CustomException(ErrorCode.NEED_GROUP_PERMISSION);
+        if (!participantRepository.existsByUserAndGroup(user, group))
+            throw new CustomException(ErrorCode.NEED_GROUP_PERMISSION);
 
-        Page<Review> reviewPage = reviewRepository.findAllReviewDetailByGroupId(groupId, pageable);
-        return ReviewPageResDto.builder()
-                .totalPage(reviewPage.getTotalPages())
-                .reviews(reviewPage.getContent().stream().map(review ->
-                        ReviewElementResDto.builder()
-                                .id(review.getId())
-                                .author(review.getUser().getName())
-                                .comment(review.getComment())
-                                .createdAt(review.getCreatedAt())
-                                .build()
-                ).toList())
-                .build();
+        return ReviewPageResDto.from(reviewRepository.findAllReviewDetailByGroupId(groupId, pageable));
     }
 
     @Override
@@ -113,7 +90,8 @@ public class GroupServiceImpl implements GroupService {
         User user = userRepository.getReferenceById(userId);
         Group group = groupRepository.getReferenceById(groupId);
 
-        if (!participantRepository.existsByUserAndGroup(user, group)) throw new CustomException(ErrorCode.NEED_GROUP_PERMISSION);
+        if (!participantRepository.existsByUserAndGroup(user, group))
+            throw new CustomException(ErrorCode.NEED_GROUP_PERMISSION);
 
         reviewRepository.save(Review.builder()
                 .user(user)

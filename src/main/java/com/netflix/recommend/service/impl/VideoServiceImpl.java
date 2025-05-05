@@ -13,8 +13,6 @@ import com.netflix.recommend.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
@@ -28,7 +26,8 @@ public class VideoServiceImpl implements VideoService {
         User user = userRepository.getReferenceById(userId);
         Video video = videoRepository.getReferenceById(videoId);
 
-        if (historyRepository.existsByUserAndVideo(user, video)) throw new CustomException(ErrorCode.ALREADY_REGISTERED_HISTORY);
+        if (historyRepository.existsByUserAndVideo(user, video))
+            throw new CustomException(ErrorCode.ALREADY_REGISTERED_HISTORY);
 
         historyRepository.save(History.builder()
                 .user(user)
@@ -39,7 +38,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public VideoDetailResDto getVideoDetail(Long videoId) {
-        return VideoDetailResDto.of(
+        return VideoDetailResDto.from(
                 videoRepository.findVideoDetailByIdFetch(videoId)
                         .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_VIDEO))
         );
