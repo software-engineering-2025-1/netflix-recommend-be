@@ -1,9 +1,14 @@
 package com.netflix.recommend.service.impl;
 
 import com.netflix.recommend.dto.res.VideoDetailResDto;
+import com.netflix.recommend.dto.res.VideoElementResDto;
+import com.netflix.recommend.dto.res.VideoPageResDto;
 import com.netflix.recommend.entity.History;
 import com.netflix.recommend.entity.User;
 import com.netflix.recommend.entity.Video;
+import com.netflix.recommend.enums.Genre;
+import com.netflix.recommend.enums.Rate;
+import com.netflix.recommend.enums.Type;
 import com.netflix.recommend.exception.CustomException;
 import com.netflix.recommend.exception.ErrorCode;
 import com.netflix.recommend.repository.HistoryRepository;
@@ -11,6 +16,7 @@ import com.netflix.recommend.repository.UserRepository;
 import com.netflix.recommend.repository.VideoRepository;
 import com.netflix.recommend.service.VideoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +48,10 @@ public class VideoServiceImpl implements VideoService {
                 videoRepository.findVideoDetailByIdFetch(videoId)
                         .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_VIDEO))
         );
+    }
+
+    @Override
+    public VideoPageResDto getVideoListWithFiltering(Genre genre, Rate rate, Type type, Pageable pageable) {
+        return VideoPageResDto.from(videoRepository.findAllByGenreAndRateAndTypeWithPaging(genre, rate, type, pageable));
     }
 }
