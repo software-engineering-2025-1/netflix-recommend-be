@@ -1,5 +1,10 @@
 package com.netflix.recommend.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Country {
     SOUTH_KOREA("South Korea"),
     UNITED_STATES("United States"),
@@ -9,5 +14,5 @@ public enum Country {
 
     // TODO: 추후에 추가
 
-    Country(String name) {}
+    private final String name;
 }

@@ -2,10 +2,8 @@ package com.netflix.recommend.service.impl;
 
 import com.netflix.recommend.dto.req.UserDetailReqDto;
 import com.netflix.recommend.dto.res.UserDetailResDto;
-import com.netflix.recommend.dto.res.VideoElementResDto;
 import com.netflix.recommend.entity.PreferGenre;
 import com.netflix.recommend.entity.User;
-import com.netflix.recommend.entity.Video;
 import com.netflix.recommend.exception.CustomException;
 import com.netflix.recommend.exception.ErrorCode;
 import com.netflix.recommend.repository.PreferGenreRepository;
@@ -26,7 +24,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void postUserDetail(Long userId, UserDetailReqDto userDetailReqDto) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
 
         user.updateDetail(
                 userDetailReqDto.getName(),
@@ -68,22 +67,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailResDto getUserDetail(Long userId) {
-        User user = userRepository.findUserDetailByIdFetch(userId).orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
+        User user = userRepository.findUserDetailByIdFetch(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CANNOT_FIND_USER));
 
-        return UserDetailResDto.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .age(user.getAge())
-                .country(user.getCountry())
-                .genres(user.getGenres().stream().map((PreferGenre::getGenre)).toList())
-                .histories(user.getHistories().stream().map(history -> {
-                    Video video = history.getVideo();
-                    return VideoElementResDto.builder()
-                            .id(video.getId())
-                            .title(video.getTitle())
-                            .director(video.getDirector())
-                            .build();
-                }).toList())
-                .build();
+        return UserDetailResDto.from(user);
     }
 }
