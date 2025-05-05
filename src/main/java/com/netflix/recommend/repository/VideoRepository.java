@@ -20,6 +20,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query("select distinct v from Video v left join v.genres vg " +
             "where (:type is null or v.type = :type) " +
             "and (:rate is null or v.rating = :rate) " +
-            "and (:genre is null or :genre = vg.genre)")
-    Page<Video> findAllByGenreAndRateAndTypeWithPaging(Genre genre, Rate rate, Type type, Pageable pageable);
+            "and (:genre is null or :genre = vg.genre) " +
+            "and (:keyword is null or v.title like concat('%', :keyword, '%'))")
+    Page<Video> findAllByGenreAndRateAndTypeAndKeywordWithPaging(Genre genre, Rate rate, Type type, String keyword, Pageable pageable);
 }

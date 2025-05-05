@@ -51,7 +51,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoPageResDto getVideoListWithFiltering(Genre genre, Rate rate, Type type, Pageable pageable) {
-        return VideoPageResDto.from(videoRepository.findAllByGenreAndRateAndTypeWithPaging(genre, rate, type, pageable));
+    public VideoPageResDto getVideoListWithFiltering(Genre genre, Rate rate, Type type, String keyword, Pageable pageable) {
+        return VideoPageResDto.from(videoRepository.findAllByGenreAndRateAndTypeAndKeywordWithPaging(genre, rate, type, keyword, pageable));
     }
 }

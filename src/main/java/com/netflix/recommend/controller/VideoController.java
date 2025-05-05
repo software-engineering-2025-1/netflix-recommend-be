@@ -56,7 +56,7 @@ public class VideoController {
     @GetMapping
     @Operation(
             summary = "영상 리스트 필터링 API (인증 X)",
-            description = "영상을 장르, 연령, 타입에 따라 필터링하여 조회할 수 있다. 결과는 페이징되어 반환한다.",
+            description = "영상을 장르, 연령, 타입, 검색어에 따라 필터링하여 조회할 수 있다. 결과는 페이징되어 반환한다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공", content = @Content())
             }
@@ -64,8 +64,9 @@ public class VideoController {
     public ResponseEntity<VideoPageResDto> getVideoListWithFiltering(@RequestParam(required = false) Genre genre,
                                                                      @RequestParam(required = false) Rate rate,
                                                                      @RequestParam(required = false) Type type,
+                                                                     @RequestParam(required = false) String keyword,
                                                                      @RequestParam Integer page, @RequestParam Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return ResponseEntity.ok(videoService.getVideoListWithFiltering(genre, rate, type, pageRequest));
+        return ResponseEntity.ok(videoService.getVideoListWithFiltering(genre, rate, type, keyword, pageRequest));
     }
 }

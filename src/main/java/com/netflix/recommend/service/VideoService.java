@@ -13,5 +13,5 @@ public interface VideoService {
 
     VideoDetailResDto getVideoDetail(Long videoId);
 
-    VideoPageResDto getVideoListWithFiltering(Genre genre, Rate rate, Type type, Pageable pageable);
+    VideoPageResDto getVideoListWithFiltering(Genre genre, Rate rate, Type type, String keyword, Pageable pageable);
 }
