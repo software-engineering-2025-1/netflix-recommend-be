@@ -16,13 +16,13 @@ public class BasicRecommendService implements RecommendService {
 
     @Override
     public List<VideoElementResDto> recommendForIndividual(Long userId) {
-        return videoRepository.findTop10OrderById()
+        return videoRepository.findTop10ByOrderById()
                 .stream().map(VideoElementResDto::from).toList();
     }
 
     @Override
     public List<VideoElementResDto> recommendForGroup(Long groupId) {
-        return videoRepository.findTop10OrderById()
+        return videoRepository.findTop10ByOrderById()
                 .stream().map(VideoElementResDto::from).toList();
     }
 }

@@ -24,5 +24,5 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
             "and (:keyword is null or v.title like concat('%', :keyword, '%'))")
     Page<Video> findAllByGenreAndRateAndTypeAndKeywordWithPaging(Genre genre, Rate rate, Type type, String keyword, Pageable pageable);
 
-    List<Video> findTop10OrderById();
+    List<Video> findTop10ByOrderById();
 }
