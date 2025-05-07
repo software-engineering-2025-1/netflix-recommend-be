@@ -47,6 +47,6 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public List<UserElementResDto> getFollowingList(Long userId) {
         return followRepository.findFollowingsByIdFetch(userId).stream().map(follow ->
-                UserElementResDto.from(follow.getSender())).toList();
+                UserElementResDto.from(follow.getReceiver())).toList();
     }
 }
