@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface VideoRepository extends JpaRepository<Video, Long> {
 
-    @Query("select v from Video v left join fetch v.genres where v.id = :videoId")
+    @Query("select v from Video v left join fetch v.genres left join fetch v.countries where v.id = :videoId")
     Optional<Video> findVideoDetailByIdFetch(Long videoId);
 
     @Query("select distinct v from Video v left join v.genres vg " +

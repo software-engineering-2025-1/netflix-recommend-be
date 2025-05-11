@@ -21,10 +21,9 @@ public class User {
     @Column(unique = true)
     private Long kakaoId;
 
-    @Column(nullable = true)
     private Integer age;
 
-    @Column(nullable = true)
+    @Column(columnDefinition = "VARCHAR(50)")
     @Enumerated(EnumType.STRING)
     private Country country;
 

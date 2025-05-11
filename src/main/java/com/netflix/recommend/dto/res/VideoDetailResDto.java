@@ -15,11 +15,11 @@ public class VideoDetailResDto {
     private String title;
     private String director;
     private String cast;
-    private String country;
+    private String countries;
     private LocalDate dateAdded;
     private Integer releaseYear;
     private String rating;
-    private Integer duration;
+    private String duration;
     private String description;
     private String genres;
 
@@ -30,7 +30,9 @@ public class VideoDetailResDto {
                 .title(video.getTitle())
                 .director(video.getDirector())
                 .cast(video.getCast())
-                .country(video.getCountry().getName())
+                .countries(video.getCountries().stream().map(videoCountry ->
+                        videoCountry.getCountry().getName()
+                ).collect(Collectors.joining(", ")))
                 .dateAdded(video.getDateAdded())
                 .releaseYear(video.getReleaseYear())
                 .rating(video.getRating().getName())

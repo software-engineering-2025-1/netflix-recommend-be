@@ -15,6 +15,7 @@ public class PreferGenre {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(50)")
     private Genre genre;
 
     @ManyToOne(fetch = FetchType.LAZY)

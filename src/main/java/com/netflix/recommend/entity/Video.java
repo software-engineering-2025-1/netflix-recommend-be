@@ -1,6 +1,5 @@
 package com.netflix.recommend.entity;
 
-import com.netflix.recommend.enums.Country;
 import com.netflix.recommend.enums.Rate;
 import com.netflix.recommend.enums.Type;
 import jakarta.persistence.*;
@@ -16,28 +15,32 @@ public class Video {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(50)")
     private Type type;
 
     private String title;
 
     private String director;
 
+    @Column(columnDefinition = "VARCHAR(1000)")
     private String cast;
-
-    @Enumerated(EnumType.STRING)
-    private Country country;
 
     private LocalDate dateAdded;
 
     private Integer releaseYear;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(50)")
     private Rate rating;
 
-    private Integer duration;
+    private String duration;
 
+    @Column(columnDefinition = "VARCHAR(500)")
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
     private List<VideoGenre> genres;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
+    private List<VideoCountry> countries;
 }
