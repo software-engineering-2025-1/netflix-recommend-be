@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Type {
-    MOVIE("movie"),
-    DRAMA("drama");
+    MOVIE("Movie"),
+    TV_SHOW("TV Show");
 
     private final String name;
 }
