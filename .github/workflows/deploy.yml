@@ -18,6 +18,7 @@ jobs:
       KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       CLIENT_REDIRECT_URI: ${{ secrets.CLIENT_REDIRECT_URI }}
+      BASE_URL: ${{ secrets.BASE_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -44,6 +45,7 @@ jobs:
           --build-arg KAKAO_CLIENT_SECRET="${{ env.KAKAO_CLIENT_SECRET }}" \
           --build-arg JWT_SECRET_KEY="${{ env.JWT_SECRET_KEY }}" \
           --build-arg CLIENT_REDIRECT_URI="${{ env.CLIENT_REDIRECT_URI }}" \
+          --build-arg BASE_URL="${{ env.BASE_URL }}" \
           -t netflix-recommend-app . 
           docker tag netflix-recommend-app ${{ secrets.DOCKER_HUB_USERNAME }}/netflix-recommend-app:${{ github.sha }}
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/netflix-recommend-app:${{ github.sha }}
