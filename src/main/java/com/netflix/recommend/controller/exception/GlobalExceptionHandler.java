@@ -22,5 +22,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleSQLIntegrityException(SQLIntegrityConstraintViolationException e) {
         return new ResponseEntity<>("존재하지 않는 리소스입니다.", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> handleNullPointerException(NullPointerException e) {
+        return new ResponseEntity<>("인증이 필요합니다.", HttpStatus.FORBIDDEN);
+    }
 }
 
