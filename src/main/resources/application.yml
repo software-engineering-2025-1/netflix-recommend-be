@@ -32,4 +32,4 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
 
 oauth:
-  client-redirect-uri: ${CLIENT_REDIRECT_URI}
+  client-redirect-uri: http://localhost:3000/redirect
