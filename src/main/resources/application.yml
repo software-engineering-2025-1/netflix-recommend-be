@@ -32,4 +32,4 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
 
 oauth:
-  client-redirect-uri: http://localhost:3000/redirect
+  client-redirect-uri: http://localhost:3000/oauth/callback/kakao
