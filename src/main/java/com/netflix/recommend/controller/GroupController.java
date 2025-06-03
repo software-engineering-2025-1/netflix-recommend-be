@@ -120,4 +120,16 @@ public class GroupController {
     public ResponseEntity<List<VideoElementResDto>> getRecommendedVideosForGroup(@PathVariable("group-id") Long groupId) {
         return ResponseEntity.ok(recommendService.recommendForGroup(groupId));
     }
+
+    @GetMapping("/me")
+    @Operation(
+            summary = "내 그룹 리스트 조회 API",
+            description = "내가 참여한 그룹의 리스트를 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<List<GroupElementResDto>> getMyGroupList(@Parameter(hidden = true) Authentication authentication) {
+        return ResponseEntity.ok(groupService.getMyGroupList(Long.valueOf(authentication.getName())));
+    }
 }

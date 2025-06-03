@@ -33,11 +33,9 @@ public class GroupServiceImpl implements GroupService {
     @Transactional
     public void postGroup(Long userId, String name) {
         User user = userRepository.getReferenceById(userId);
+        Group group = Group.builder().name(name).build();
 
-        Group group = groupRepository.save(Group.builder()
-                .name(name)
-                .build()
-        );
+        groupRepository.save(group);
         participantRepository.save(Participant.builder()
                 .user(user)
                 .group(group)
@@ -99,5 +97,10 @@ public class GroupServiceImpl implements GroupService {
                 .comment(reviewDetailReqDto.getComment())
                 .build()
         );
+    }
+
+    @Override
+    public List<GroupElementResDto> getMyGroupList(Long userId) {
+        return groupRepository.findAllByUserId(userId).stream().map(GroupElementResDto::from).toList();
     }
 }

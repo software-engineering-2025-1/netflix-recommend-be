@@ -21,4 +21,6 @@ public interface GroupService {
     ReviewPageResDto getReviewWithPaging(Long userId, Long groupId, Pageable pageable);
 
     void postReview(Long userId, Long groupId, ReviewDetailReqDto reviewDetailReqDto);
+
+    List<GroupElementResDto> getMyGroupList(Long userId);
 }

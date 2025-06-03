@@ -13,4 +13,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Optional<Group> findGroupDetailByIdFetch(Long groupId);
 
     List<Group> findAllByNameContaining(String keyword);
+
+    @Query("select g from Group g left join g.participants gp where gp.user.id = :userId")
+    List<Group> findAllByUserId(Long userId);
 }

@@ -15,8 +15,8 @@ public class UserDetailResDto {
     private Long id;
     private String name;
     private Integer age;
-    private Country country;
-    private List<Genre> genres;
+    private String country;
+    private List<String> genres;
     private List<VideoElementResDto> histories;
 
     public static UserDetailResDto from(User user) {
@@ -24,8 +24,8 @@ public class UserDetailResDto {
                 .id(user.getId())
                 .name(user.getName())
                 .age(user.getAge())
-                .country(user.getCountry())
-                .genres(user.getGenres().stream().map((PreferGenre::getGenre)).toList())
+                .country(user.getCountry().getName())
+                .genres(user.getGenres().stream().map(preferGenre -> preferGenre.getGenre().getName()).toList())
                 .histories(user.getHistories().stream().map(history -> VideoElementResDto.from(history.getVideo())).toList())
                 .build();
     }
