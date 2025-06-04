@@ -29,19 +29,6 @@ public class UserController {
     private final FollowService followService;
     private final RecommendService recommendService;
 
-    @PostMapping("/me")
-    @Operation(
-            summary = "내 정보 등록 API",
-            description = "이름, 나이, 국가, 선호 장르를 초기 설정할 수 있다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
-            }
-    )
-    public ResponseEntity<String> postMyDetail(@Parameter(hidden = true) Authentication authentication, @RequestBody UserDetailReqDto userDetailReqDto) {
-        userService.postUserDetail(Long.valueOf(authentication.getName()), userDetailReqDto);
-        return ResponseEntity.ok("성공");
-    }
-
     @PutMapping("/me")
     @Operation(
             summary = "내 정보 수정 API",
