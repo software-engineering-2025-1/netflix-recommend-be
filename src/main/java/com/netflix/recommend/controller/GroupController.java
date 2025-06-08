@@ -132,4 +132,16 @@ public class GroupController {
     public ResponseEntity<List<GroupElementResDto>> getMyGroupList(@Parameter(hidden = true) Authentication authentication) {
         return ResponseEntity.ok(groupService.getMyGroupList(Long.valueOf(authentication.getName())));
     }
+
+    @GetMapping("{group-id}/histories")
+    @Operation(
+            summary = "그룹 시청 기록 조회 API",
+            description = "특정 그룹의 시청 기록을 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+            }
+    )
+    public ResponseEntity<List<VideoElementResDto>> getMyGroupList(@PathVariable("group-id") Long groupId) {
+        return ResponseEntity.ok(groupService.getGroupHistory(groupId));
+    }
 }

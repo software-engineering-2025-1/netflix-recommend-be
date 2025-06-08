@@ -2,16 +2,10 @@ package com.netflix.recommend.service.impl;
 
 import com.netflix.recommend.dto.req.ReviewDetailReqDto;
 import com.netflix.recommend.dto.res.*;
-import com.netflix.recommend.entity.Group;
-import com.netflix.recommend.entity.Participant;
-import com.netflix.recommend.entity.Review;
-import com.netflix.recommend.entity.User;
+import com.netflix.recommend.entity.*;
 import com.netflix.recommend.exception.CustomException;
 import com.netflix.recommend.exception.ErrorCode;
-import com.netflix.recommend.repository.GroupRepository;
-import com.netflix.recommend.repository.ParticipantRepository;
-import com.netflix.recommend.repository.ReviewRepository;
-import com.netflix.recommend.repository.UserRepository;
+import com.netflix.recommend.repository.*;
 import com.netflix.recommend.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -102,5 +96,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupElementResDto> getMyGroupList(Long userId) {
         return groupRepository.findAllByUserId(userId).stream().map(GroupElementResDto::from).toList();
+    }
+
+    @Override
+    public List<VideoElementResDto> getGroupHistory(Long groupId) {
+        return groupRepository.findGroupHistory(groupId).stream().map(VideoElementResDto::from).toList();
     }
 }

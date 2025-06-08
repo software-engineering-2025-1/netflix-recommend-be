@@ -4,6 +4,7 @@ import com.netflix.recommend.dto.req.ReviewDetailReqDto;
 import com.netflix.recommend.dto.res.GroupDetailResDto;
 import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.dto.res.ReviewPageResDto;
+import com.netflix.recommend.dto.res.VideoElementResDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface GroupService {
     void postReview(Long userId, Long groupId, ReviewDetailReqDto reviewDetailReqDto);
 
     List<GroupElementResDto> getMyGroupList(Long userId);
+
+    List<VideoElementResDto> getGroupHistory(Long groupId);
 }
