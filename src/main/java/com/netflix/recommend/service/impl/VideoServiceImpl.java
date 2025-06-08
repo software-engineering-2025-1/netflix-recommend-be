@@ -1,7 +1,6 @@
 package com.netflix.recommend.service.impl;
 
 import com.netflix.recommend.dto.res.VideoDetailResDto;
-import com.netflix.recommend.dto.res.VideoElementResDto;
 import com.netflix.recommend.dto.res.VideoPageResDto;
 import com.netflix.recommend.entity.History;
 import com.netflix.recommend.entity.User;

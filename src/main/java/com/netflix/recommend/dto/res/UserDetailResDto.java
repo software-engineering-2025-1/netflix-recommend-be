@@ -24,7 +24,7 @@ public class UserDetailResDto {
                 .id(user.getId())
                 .name(user.getName())
                 .age(user.getAge())
-                .country(user.getCountry().getName())
+                .country(user.getCountry() != null ? user.getCountry().getName() : null)
                 .genres(user.getGenres().stream().map(preferGenre -> preferGenre.getGenre().getName()).toList())
                 .histories(user.getHistories().stream().map(history -> VideoElementResDto.from(history.getVideo())).toList())
                 .build();

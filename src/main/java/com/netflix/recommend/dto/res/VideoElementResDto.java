@@ -10,12 +10,16 @@ public class VideoElementResDto {
     private Long id;
     private String title;
     private String director;
+    private String rating;
+    private String type;
 
     public static VideoElementResDto from(Video video) {
         return VideoElementResDto.builder()
                 .id(video.getId())
                 .title(video.getTitle())
                 .director(video.getDirector())
+                .rating(video.getRating() != null ? video.getRating().getName() : null)
+                .type(video.getType() != null ? video.getType().getName() : null)
                 .build();
     }
 }
