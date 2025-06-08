@@ -12,12 +12,12 @@ import java.util.List;
 @Getter
 public class VideoPageResDto {
     private Integer totalPage;
-    private List<VideoElementResDto> reviews;
+    private List<VideoElementResDto> videos;
 
     public static VideoPageResDto from(Page<Video> videoPage) {
         return VideoPageResDto.builder()
                 .totalPage(videoPage.getTotalPages())
-                .reviews(videoPage.getContent().stream().map(VideoElementResDto::from).toList())
+                .videos(videoPage.getContent().stream().map(VideoElementResDto::from).toList())
                 .build();
     }
 }
