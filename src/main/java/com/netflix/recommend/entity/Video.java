@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,8 +39,8 @@ public class Video {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
-    private List<VideoGenre> genres;
+    private Set<VideoGenre> genres;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "video")
-    private List<VideoCountry> countries;
+    private Set<VideoCountry> countries;
 }
