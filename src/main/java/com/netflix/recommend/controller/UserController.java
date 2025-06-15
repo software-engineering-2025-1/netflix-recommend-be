@@ -5,7 +5,6 @@ import com.netflix.recommend.dto.res.UserDetailResDto;
 import com.netflix.recommend.dto.res.UserElementResDto;
 import com.netflix.recommend.dto.res.VideoElementResDto;
 import com.netflix.recommend.service.FollowService;
-import com.netflix.recommend.service.RecommendService;
 import com.netflix.recommend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +26,6 @@ public class UserController {
 
     private final UserService userService;
     private final FollowService followService;
-    private final RecommendService recommendService;
 
     @PutMapping("/me")
     @Operation(
@@ -101,17 +99,5 @@ public class UserController {
     )
     public ResponseEntity<List<UserElementResDto>> getFollowings(@PathVariable("user-id") Long userId) {
         return ResponseEntity.ok(followService.getFollowingList(userId));
-    }
-
-    @GetMapping("/me/recommend")
-    @Operation(
-            summary = "개인 추천 영상 상위 10개 리스트 조회 API",
-            description = "개인 선호에 기반한 추천 영상의 상위 10개 리스트를 조회할 수 있다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
-            }
-    )
-    public ResponseEntity<List<VideoElementResDto>> getRecommendedVideosForIndividual(@Parameter(hidden = true) Authentication authentication) {
-        return ResponseEntity.ok(recommendService.recommendForIndividual(Long.valueOf(authentication.getName())));
     }
 }

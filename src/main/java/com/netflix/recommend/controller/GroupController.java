@@ -6,7 +6,6 @@ import com.netflix.recommend.dto.res.GroupElementResDto;
 import com.netflix.recommend.dto.res.ReviewPageResDto;
 import com.netflix.recommend.dto.res.VideoElementResDto;
 import com.netflix.recommend.service.GroupService;
-import com.netflix.recommend.service.RecommendService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,7 +26,6 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
-    private final RecommendService recommendService;
 
     @PostMapping
     @Operation(
@@ -107,18 +105,6 @@ public class GroupController {
                                                   @RequestBody ReviewDetailReqDto reviewDetailReqDto) {
         groupService.postReview(Long.valueOf(authentication.getName()), groupId, reviewDetailReqDto);
         return ResponseEntity.ok("성공");
-    }
-
-    @GetMapping("/{group-id}/recommend")
-    @Operation(
-            summary = "그룹 추천 영상 상위 10개 리스트 조회 API (인증 X)",
-            description = "그룹 선호에 기반한 추천 영상의 상위 10개 리스트를 조회할 수 있다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공", content = @Content())
-            }
-    )
-    public ResponseEntity<List<VideoElementResDto>> getRecommendedVideosForGroup(@PathVariable("group-id") Long groupId) {
-        return ResponseEntity.ok(recommendService.recommendForGroup(groupId));
     }
 
     @GetMapping("/me")

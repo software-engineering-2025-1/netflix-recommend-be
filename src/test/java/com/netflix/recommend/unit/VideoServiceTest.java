@@ -25,6 +25,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -95,8 +96,8 @@ class VideoServiceTest {
         ReflectionTestUtils.setField(video, "title", "title1");
         ReflectionTestUtils.setField(video, "type", Type.MOVIE);
         ReflectionTestUtils.setField(video, "rating", Rate.NC_17);
-        ReflectionTestUtils.setField(video, "genres", List.of());
-        ReflectionTestUtils.setField(video, "countries", List.of());
+        ReflectionTestUtils.setField(video, "genres", Set.of());
+        ReflectionTestUtils.setField(video, "countries", Set.of());
 
         when(videoRepository.findVideoDetailByIdFetch(videoId)).thenReturn(Optional.of(video));
 
@@ -142,7 +143,7 @@ class VideoServiceTest {
         VideoPageResDto videoListWithFiltering = videoService.getVideoListWithFiltering(null, null, null, null, pageable);
 
         assertThat(videoListWithFiltering.getTotalPage()).isEqualTo(1);
-        assertThat(videoListWithFiltering.getReviews().size()).isEqualTo(1);
-        assertThat(videoListWithFiltering.getReviews().get(0).getTitle()).isEqualTo("title1");
+        assertThat(videoListWithFiltering.getVideos().size()).isEqualTo(1);
+        assertThat(videoListWithFiltering.getVideos().get(0).getTitle()).isEqualTo("title1");
     }
 }
